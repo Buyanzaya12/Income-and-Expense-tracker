@@ -1,30 +1,25 @@
-
 const fs = require("fs");
 const { v4: uuidv4 } = require('uuid');
+const { sql } = require("../configs/database");
 
-
-async function createNewCategory(form) {
+async function createCategory(input) {
+    const content = fs.readFileSync("data/categories.json", "utf-8");
+    const categories = JSON.parse(content);
     const id = uuidv4();
-    form.id = id;
-    categories.push(form);
+    categories.push({ ...input, id });
     fs.writeFileSync("data/categories.json", JSON.stringify(categories));
     return id;
 }
 
-function getCategories() {
+async function getCategories() {
+    const list = await sql`select * from category`;
+
     const content = fs.readFileSync("data/categories.json", "utf-8");
     const categories = JSON.parse(content);
-    return categories;
+    return list;
 }
-function getOneCategory(id) { }
-function updateCategory(id, update) { }
-function deleteCategory(id) { }
-
 
 module.exports = {
-    createNewCategory,
+    createCategory,
     getCategories,
-    getOneCategory,
-    updateCategory,
-    deleteCategory,
 }
