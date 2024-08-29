@@ -22,7 +22,7 @@ function handleDelete(id) {
     method: "DELETE",
   })
   .then((res) => {
-    if (res.status === 404){
+    if (res.status === 404) {
       alert("Category not found")
     }
       loadList();
@@ -53,6 +53,10 @@ function handleDelete(id) {
           <button onClick={() => handleDelete(category.id)}>Delete</button>
         </div>
       ))}
+      <div>
+        Wrong data
+        <button onClick={() => handleDelete("wrongID")}>Delete</button>
+      </div>
     </main>
   );
 }
