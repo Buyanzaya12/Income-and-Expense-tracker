@@ -1,13 +1,15 @@
-const fs = require("fs");
 const { v4: uuidv4 } = require("uuid");
 const { sql } = require("../configs/database");
 
 async function createCategory({ name, icon, color }) {
-  const id = uuidv4();
-  await sql`insert into category (id, name, icon, color) values (${id}, ${name}, ${icon}, ${color})`;
-  return id;
+  if (name && icon && color) {
+    const id = uuidv4();
+    await sql`insert into category (id, name, icon, color) values (${id}, ${name}, ${icon}, ${color})`;
+    return id;
+  } else {
+    return null;
+  }
 }
-
 async function getCategories() {
   const list = await sql`select * from category order by name`;
   return list;
@@ -30,6 +32,7 @@ async function updateOneCategory({ name, color, icon }) {
 module.exports = {
   createCategory,
   getCategories,
+  getOneCategory,
   updateOneCategory,
   deleteOneCategory,
 };

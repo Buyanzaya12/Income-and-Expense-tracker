@@ -4,16 +4,30 @@ CREATE TABLE category (
     color varchar(16),
     icon varchar(16),
 )
-
+DROP TABLE transaction;
+CREATE TYPE transactionType AS ENUM ('INCOME', 'EXPENSE');
 CREATE TABLE transaction (
     id char(36) PRIMARY KEY,
-    amount decimal(),
+    amount decimal(10,2),
     categoryId char(36),
-    type VARCHAR(10),
+    type transactionType,
     date DATE, 
-    payee varchar(),
+    payee varchar(36),
     note TEXT,
+    FOREIGN KEY (categoryID) REFERENCES category(id)
     )
+
+insert into transaction values ('asd', 1000, 'id', 'INCOME', CURRENT_DATE, 'buyana', 'lending') 
+
+select 
+transaction.amount, 
+transaction.type,  
+category.name, 
+category.icon 
+from 
+transaction left join category 
+on 
+transaction.categoryID = category.id
 
 ALTER TABLE category
 ADD COLUMN color varchar(16),

@@ -13,9 +13,15 @@ app.get("/categories", async (req, res) => {
   res.json(list);
 });
 app.post("/categories", async (req, res) => {
-  const { name } = req.body;
-  const id = await createCategory({ name });
-  res.status(201).json({ id });
+  // const { name } = req.body;
+  const input = req.body;
+  const id = await createCategory(input);
+  if (id) {
+    res.status(201).json({ id });
+  }
+  else {
+    res.sendStatus(400);
+  }
 });
 
 app.get("/dbtest", async (req, res) => {
@@ -26,25 +32,22 @@ app.get("/dbtest", async (req, res) => {
 
 app.put("/categories/:id", async (req, res) => {
   const { id } = req.params;
-  const { name } = req.body;
-
-  if (!name) {
-    res.status(400).json({ message: "`Name` field is required" });
-    return;
-  }
-
-  await updateCategory(id, { name });
+  const input = req.body;
+  // if (!name) {
+  //   res.status(400).json({ message: "`Name` field is required" });
+  //   return;
+  // }
+  await updateOneCategory(id, input);
   res.sendStatus(204);
 });
 
 app.delete("/categories/:id", async (req, res) => {
   const { id } = req.params;
-  const deleteIndex = categories.findIndex((cat) => cat.id === id);
-
-  if (deleteIndex < 0) {
-    res.sendStatus(404);
-    return;
-  }
+  // const deleteIndex = categories.findIndex((cat) => cat.id === id);
+  // if (deleteIndex < 0) {
+  //   res.sendStatus(404);
+  //   return;
+  // }
   await deleteOneCategory(id);
   res.sendStatus(204);
 });
