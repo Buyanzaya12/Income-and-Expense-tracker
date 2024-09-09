@@ -1,8 +1,6 @@
-import { useSearchParams } from 'next/navigation';
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input"
 import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
     Dialog,
     DialogContent,
@@ -12,19 +10,22 @@ import {
     DialogTitle,
     DialogTrigger,
   } from "@/components/ui/dialog"
+
 export function RecordDialog() {
+  const [loading, setLoading] = useState(false);
     const searchParams = useSearchParams();
     const create = searchParams.get('create');
+    const router = useRouter();
     const open = create === "new";
-    const [loading, setLoading] = useState(false);
     return (
-        <Dialog >
-        <DialogContent className="sm:max-w-[425px]">
+      <>
+        <Dialog open={open}>
+        <DialogContent onClose={() => router.push(`?`)} className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Add Category</DialogTitle>
+            <DialogTitle>Edit profile</DialogTitle>
           </DialogHeader>
           <div className="flex">
-            <Input disabled={loading} id="name" value={name} onChange={(e) => setName(e.target.value)} className="col-span-3" />
+            <Input disabled={loading} id="name" onChange={(e) => setName(e.target.value)} className="col-span-3" />
           </div>
           <DialogFooter>
             {/* {
@@ -38,5 +39,6 @@ export function RecordDialog() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      </>
     )
 }
