@@ -18,8 +18,7 @@ app.post("/categories", async (req, res) => {
   const id = await createCategory(input);
   if (id) {
     res.status(201).json({ id });
-  }
-  else {
+  } else {
     res.sendStatus(400);
   }
 });
